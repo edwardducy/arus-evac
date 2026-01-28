@@ -27,124 +27,67 @@ The tool is designed to provide insights rather than exact or authoritative resu
 
 ## Getting Started
 
-This section explains how to set up your local development environment so that you can start developing as quickly as possible.
+This guide helps you set up your local development environment so you can start working quickly.
 
-This guide assumes you are **not familiar or comfortable** with terminals, shell commands, or system tools.
-
-Please follow the steps **exactly as written** and do not skip steps.
-
-If you want full explanations and background (why these tools are needed, what the commands do, and how to troubleshoot deeper issues), see:
-
-👉 `docs/environment-setup.md` (TBA)
+> [!TIP]
+> If you want deeper explanations (why tools are needed, what commands do, troubleshooting), see: (TBA)
 
 ## Supported Environments
 
-This project was mainly developed and tested on **Linux (Arch-based distributions)**.
+This project is developed primarily on Linux.
 
-The following environments are supported:
+Supported environments:
 
-- **Linux** (primary development environment)
-- **Windows 11** (supported, with additional setup)
-- **Windows + WSL** (treated as Linux; separate guide planned)
+- Linux (recommended)
+- Windows 11 (supported with extra setup)
+- Windows + WSL (treated as Linux)
 
 > [!NOTE]
-> Some tools and workflows used by this project assume a Linux-like environment.  
-> Using Windows may require extra steps and stricter adherence to this guide.
+> Some tools assume a Linux-like environment.
+> On Windows, follow this guide carefully.
 
-## Windows Setup (Do Not Follow)
+## Windows Setup
 
-This section walks you through setting up a Windows environment that closely matches the expected development setup.
-
-> [!WARNING]
-> **Do NOT run PowerShell as Administrator** unless explicitly told to do so.  
-> Running as admin can cause permission issues later and make debugging harder.
-
-All commands below must be run in **PowerShell 7 (non-admin)**.
+> [!IMPORTANT]
+> Ensure all commands are executed strictly within a non-administrative instance of PowerShell 7. Avoid the use of Administrator privileges unless explicitly directed otherwise.
 
 ### Prerequisites (Windows)
 
-You will install the following tools:
-
-- **PowerShell 7**  
-  The shell (terminal) we will use for all commands.
-
-- **Scoop**  
-  A tool that installs and manages programs in a consistent way.
-
-- **Git**  
-  Used to download the project source code, manage versions, and contribute changes.
-
-- **Node.js v24 (LTS)**  
-  The required runtime to run and develop this project.
-
-> [!NOTE]
-> If you already have Node.js installed, it may **conflict** with the required version.  
-> This guide ensures the correct version is used.
+- PowerShell 7 – the terminal used in this guide
+- Scoop – installs tools consistently
+- Git – downloads and manages the project
+- Node.js v24 (LTS) – required to run the project
 
 ### Installation
 
-#### 1. Check if PowerShell 7 Is Installed
+#### Install PowerShell 7
 
-PowerShell 7 is **not included by default** with Windows.
+PowerShell 7 is not included by default with Windows.
 
-1. Press **Start**
-2. Search for **PowerShell 7**
-3. If you see it, open it (**do not run as Administrator**)
+Follow this guide from [Microsoft](https://learn.microsoft.com/en-us/powershell/scripting/install/install-powershell-on-windows?view=powershell-7.5).
 
-If you do **not** see PowerShell 7, follow this guide from [Microsoft](https://learn.microsoft.com/en-us/powershell/scripting/install/install-powershell-on-windows?view=powershell-7.5).
+#### Install Scoop
 
-After installing, **close all terminals**, reopen **PowerShell 7**, then continue.
-
-#### 2. Verify You Are Using PowerShell 7
-
-Open **PowerShell 7** and run:
-
-```sh
-$PSVersionTable.PSVersion
-```
-
-You must see a version starting with 7.
-
-#### 3. Install Scoop
-
-In PowerShell 7 (non-admin), run:
+Run in PowerShell 7:
 
 ```sh
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
 ```
 
-Verify Scoop installation:
+#### Install Git
 
-```sh
-scoop --version
-```
+Git is installed automatically by Scoop.
 
-#### 4. Install Git
-
-Git is often **installed** automatically by Scoop, but we will **verify** it.
-
-First, check if Git is already available:
-
-```sh
-git --version
-```
-
-If you see a version number, Git is already installed.
-
-You can **continue** to the next step.
-
-If you see an error like **“command not found”**, install Git using Scoop:
+If Git is not found, install it:
 
 ```sh
 scoop install git
 ```
 
-#### 5. Configure Git
+#### Configure Git
 
-Git needs to know **who you are**.
-
-Run the following commands, replacing the values with your **own**:
+Tell Git who you are:
 
 ```sh
 git config --global user.name "Your Name"
@@ -158,103 +101,60 @@ git config --global user.name "Prinz Edward Ducyogen"
 git config --global user.email "ducyogenpred@gmail.com"
 ```
 
-#### 6. Install Node.js
+#### Install Node.js (Required)
 
 This project requires **Node.js v24 (LTS)**.
+
+Install:
 
 ```sh
 scoop install nodejs-lts
 ```
 
-> [!CAUTION]
-> Do **NOT** install Node.js if you already have the correct version installed, or you're on your own.
->
-> Joke lang! HAhaHAha!
->
-> However, be aware that you will have a harder time managing your Node.js versions.
-
-Verify installation:
-
-```sh
-node --version
-npm --version
-```
-
 You should see version numbers printed.
 
-#### 7. Choose Where to Store the Project (Optional)
+#### 7. Choose Project Location (Optional)
 
-Before cloning the project, decide **where** it will live on your computer.
-
-**Recommended location:** your home directory.
-
-On Windows, this usually looks like:
-
-```sh
-C:\Users\YourUsername
-```
-
-To move there safely, run:
+Move to your home directory:
 
 ```sh
 cd ~
 pwd
 ```
 
-You should see a path similar to C:\Users\YourName.
+You should see something like:
 
-> [!NOTE]
-> This location:
->
-> - avoids permission issues
-> - is easy to find later
+```sh
+C:\Users\YourUsername
+```
 
-#### 8. Clone the Project
-
-Make sure you are still in your **intended** directory.
-
-Clone the repository:
+#### Clone the Project
 
 ```sh
 git clone https://github.com/edwardducy/arus-evac.git
-```
-
-Then enter the project folder:
-
-```sh
 cd arus-evac
 ```
 
-#### 9. Install Project Dependencies
+#### Install Dependencies
 
-Make sure you are **inside** the project folder.
-
-You can confirm this by running:
+Confirm you’re in the correct folder:
 
 ```sh
 ls
 ```
 
-You should see files like:
+You should see:
 
 - package.json
 - package-lock.json
 
-If you do not see `package.json`, you are in the wrong directory **LOL**.
-
-Install the dependencies:
+Install dependencies:
 
 ```sh
 npm install
 ```
 
-This step may take a few minutes.
-
-Do not **close** the terminal while this is running.
-
-#### 10. Start the Development Server
-
-Run:
+#### Start the Development Server
 
 ```sh
 npm run dev
