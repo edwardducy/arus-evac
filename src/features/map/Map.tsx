@@ -9,8 +9,51 @@ function Map() {
   const markers = useRef<maplibregl.Marker[]>([]);
   
   const [instructions, setInstructions] = useState<string[]>([]);
+  const [startQuery, setStartQuery] = useState("");
+  const [endQuery, setEndQuery] = useState("");
 
   const compiler = osrmTextInstructions("v5");
+
+  async function geocode(query: string): Promise<[number, number] | null> {
+    const url = "https://nominatim.openstreetmap.org/search?format=json&q=" + encodeURIComponent(query);
+    const res = await fetch(url);
+    const data = await res.json();
+    
+    if (!data || data.length === 0) return null;
+      return [parseFloat(data[0].lon), parseFloat(data[0].lat)];
+    }
+
+  
+
+  async function handleSearch() {
+    const start = await geocode(startQuery);
+    const end = await geocode(endQuery);
+
+    if (!start || !end) {
+      alert("Location not found.");
+      return;
+    }
+
+    markers.current.forEach(m=> m.remove());
+    markers.current = [];
+
+    markers.current.push(
+      new maplibregl.Marker({ color: "green" })
+        .setLngLat(start!)
+        .addTo(mapInstance.current!)
+    );
+
+    markers.current.push(
+      new maplibregl.Marker({ color: "red" })
+        .setLngLat(end!)
+        .addTo(mapInstance.current!)
+    );
+
+    if(!mapInstance.current) return;
+
+    getRoute(start!, end!);
+
+  }
 
   async function getRoute(start: [number, number], end: [number, number]) {
   const url = `http://localhost:5000/route/v1/foot/${start[0]},${start[1]};${end[0]},${end[1]}?geometries=geojson&overview=full&steps=true`;
@@ -125,34 +168,115 @@ function Map() {
   }, []);
 
   return (
-    <div style={{display: 'flex', height: "100vh"}}>
-    <div ref={mapContainer} style={{width: '100%', height: '100vh'}} className="" />;
+    <div style = {{position: 'relative', width: '100%', height: '100vh'}}>
+      <div
+        style = {{
+          position: 'absolute',
+          top: '1rem',
+          left: '1rem',
+          width: '200px',
+          padding: '0.5rem',
+          borderRadius: '5px',
+          backgroundColor: 'white',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+          zIndex: 10,
+        }}
+        >
+          <input
+            type="text"
+            placeholder="Starting Point"
+            value={startQuery}
+            onChange={(e) => setStartQuery(e.target.value)}
+            style = {{
+              width: '100%',
+              padding: '0.5rem',
+              marginBottom: '0.5rem',
+              border: '1px solid #ccc',
+              borderRadius: '4px'
+            }}
+          />
+          <input
+            type="text"
+            placeholder="Destination"
+            value={endQuery}
+            onChange={(e) => setEndQuery(e.target.value)}
+            style = {{
+              width: '100%',
+              padding: '0.5rem',
+              marginBottom: '0.5rem',
+              border: '1px solid #ccc',
+              borderRadius: '4px'
+            }}
+          />
+
+          <button
+            onClick={handleSearch}
+            style = {{
+              width: '100%',
+              padding: '0.5rem',
+              backgroundColor: '#2563eb',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              fontWeight: 'bold',
+              cursor: 'pointer',
+            }}
+            >
+              Start
+            </button>
+        </div>
+
+    <div 
+      ref={mapContainer} 
+      style={{
+        position: 'absolute',
+        top: '0',
+        left: '0',
+        width: '100%',
+        height: '100%',
+        zIndex: 1
+         }}/>
 
     <div
       style={{
-        width: '%',
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        right: 0,
+        width: '15%',
         height: '100vh',
         overflowY: 'auto',
         padding: '1rem',
         borderLeft: '1px solid #ccc',
+        boxShadow: ' -2px 0 8px rgba(0,0,0,0.1)',
         backgroundColor: '#f9f9f9',
+        zIndex: 10
       }}
-      >
-        <h2 style={{ fontSize: '1.8rem', fontWeight: 'bold', marginBottom: '1rem'}}>Directions</h2>
-        <ol>
-          {instructions.map((inst, i) => (
-            <li key={i}
-            style = {{
-              marginBottom: '1rem',
-              paddingBottom: '0.5rem',
-              borderBottom: '1px solid #eee',
-            }}
-            dangerouslySetInnerHTML={{ __html: inst }} />
-          ))}
-        </ol>
-      </div>
+    >
+        <h2 
+          style = {{ 
+          fontSize: '1.8rem',
+          fontWeight: 'bold',
+          marginBottom: '1rem'
+          }}>
+            Directions
+          </h2>
+          <ol>
+            {instructions.map((inst, i) => (
+              <li key={i}
+              style = {{
+                marginBottom: '1rem',
+                paddingBottom: '0.5rem',
+                borderBottom: '1px solid #eee',
+              }}
+              dangerouslySetInnerHTML={{ __html: inst }} />
+            ))}
+          </ol>
+        </div>
     </div>
-  )
+
+
+  );
 }
 
 export default Map
