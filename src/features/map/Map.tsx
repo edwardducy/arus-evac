@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import maplibregl from "maplibre-gl";
 import osrmTextInstructions, { Compiler, CompileOptions, RouteStep } from "osrm-text-instructions";
 import { OSRMResponse, OSRMRoute } from "../../osrm";
@@ -7,6 +7,8 @@ function Map() {
   const mapContainer = useRef<HTMLDivElement | null>(null);
   const mapInstance = useRef<maplibregl.Map | null>(null);
   const markers = useRef<maplibregl.Marker[]>([]);
+  
+  const [instructions, setInstructions] = useState<string[]>([]);
 
   const compiler = osrmTextInstructions("v5");
 
@@ -31,8 +33,9 @@ function Map() {
     },
   })
 
-  const instructions: string[] = [];
+  
   try {
+    const newInstructions: string[] = [];
     route.legs.forEach((leg: any, legIndex: number) => {
       leg.steps.forEach((step: RouteStep) => {
         const options: CompileOptions = {
@@ -42,10 +45,10 @@ function Map() {
             token === "way_name" ? `<strong>${value}</strong>` : value,
         };
         const instruction = compiler.compile("en", step, options);
-        instructions.push(instruction);
+        newInstructions.push(instruction);
      });
     });
-    console.log("Directions:", instructions);
+    setInstructions(newInstructions);
   } catch (err) {
    console.error("Failed to generate OSRM instructions:", err);
 }
@@ -121,7 +124,35 @@ function Map() {
     };
   }, []);
 
-  return <div ref={mapContainer} style={{width: '100%', height: '100vh'}} className="" />;
+  return (
+    <div style={{display: 'flex', height: "100vh"}}>
+    <div ref={mapContainer} style={{width: '100%', height: '100vh'}} className="" />;
+
+    <div
+      style={{
+        width: '%',
+        height: '100vh',
+        overflowY: 'auto',
+        padding: '1rem',
+        borderLeft: '1px solid #ccc',
+        backgroundColor: '#f9f9f9',
+      }}
+      >
+        <h2 style={{ fontSize: '1.8rem', fontWeight: 'bold', marginBottom: '1rem'}}>Directions</h2>
+        <ol>
+          {instructions.map((inst, i) => (
+            <li key={i}
+            style = {{
+              marginBottom: '1rem',
+              paddingBottom: '0.5rem',
+              borderBottom: '1px solid #eee',
+            }}
+            dangerouslySetInnerHTML={{ __html: inst }} />
+          ))}
+        </ol>
+      </div>
+    </div>
+  )
 }
 
 export default Map
