@@ -1,0 +1,16 @@
+{
+	"editor.formatOnSave": true,
+	"editor.defaultFormatter": "biomejs.biome",
+	"json.schemaDownload.trustedDomains": {
+		"https://schemastore.azurewebsites.net/": true,
+		"https://raw.githubusercontent.com/": true,
+		"https://www.schemastore.org/": true,
+		"https://json.schemastore.org/": true,
+		"https://json-schema.org/": true,
+		"https://biomejs.dev/schemas/2.3.14/schema.json": true
+	},
+	"editor.codeActionsOnSave": {
+		"source.fixAll.biome": "explicit",
+		"source.organizeImports": "explicit"
+	}
+}
