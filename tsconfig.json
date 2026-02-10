@@ -1,23 +1,23 @@
 {
-	"compilerOptions": {
-		"target": "ESNext",
-		"module": "ESNext",
-		"allowJs": true,
-		"skipLibCheck": true,
-		"esModuleInterop": true,
-		"noImplicitAny": true,
-		"sourceMap": true,
-		"baseUrl": ".",
-		"outDir": "dist",
-		"moduleResolution": "bundler",
-		"resolveJsonModule": true,
-		"noEmit": true,
-		"paths": {
-			"@/*": ["./src/*"]
-		},
-		"jsx": "react-jsx",
-		"lib": ["ESNext", "DOM"],
-		"types": ["vite/client", "node"]
-	},
-	"include": ["src", "vite.*.config.ts", "forge.config.ts", "forge.env.d.ts"]
+  "compilerOptions": {
+    "allowJs": true,
+    "baseUrl": ".",
+    "esModuleInterop": true,
+    "jsx": "react-jsx",
+    "lib": ["ESNext", "DOM"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "noEmit": true,
+    "noImplicitAny": true,
+    "outDir": "dist",
+    "paths": {
+      "@/*": ["./src/renderer/*"]
+    },
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "target": "ESNext",
+    "types": ["vite/client", "node"]
+  },
+  "include": ["src", "vite.*.config.ts", "forge.config.ts", "forge.env.d.ts"]
 }

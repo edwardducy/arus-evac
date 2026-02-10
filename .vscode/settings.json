@@ -1,16 +1,24 @@
+// Do not modify the default workspace settings.
+// If you want to change the settings,
+// please create an issue first and we will consider your request.
 {
-	"editor.formatOnSave": true,
-	"editor.defaultFormatter": "biomejs.biome",
-	"json.schemaDownload.trustedDomains": {
-		"https://schemastore.azurewebsites.net/": true,
-		"https://raw.githubusercontent.com/": true,
-		"https://www.schemastore.org/": true,
-		"https://json.schemastore.org/": true,
-		"https://json-schema.org/": true,
-		"https://biomejs.dev/schemas/2.3.14/schema.json": true
-	},
-	"editor.codeActionsOnSave": {
-		"source.fixAll.biome": "explicit",
-		"source.organizeImports": "explicit"
-	}
+  "css.lint.unknownAtRules": "ignore",
+  "editor.codeActionsOnSave": {
+    "source.actions.useSortedAttributes.biome": "explicit",
+    "source.actions.useSortedKeys.biome": "explicit",
+    "source.fixAll.biome": "explicit",
+    "source.organizeImports.biome": "explicit"
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.rulers": [80],
+  "json.schemaDownload.trustedDomains": {
+    "https://biomejs.dev/schemas/2.3.14/schema.json": true,
+    "https://json-schema.org/": true,
+    "https://json.schemastore.org/": true,
+    "https://raw.githubusercontent.com/": true,
+    "https://schemastore.azurewebsites.net/": true,
+    "https://ui.shadcn.com/schema.json": true,
+    "https://www.schemastore.org/": true
+  }
 }
