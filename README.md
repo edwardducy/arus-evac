@@ -10,7 +10,7 @@
 
 <strong>Evacuation planning through scenario-based simulation.</strong>
 
-<img src="/Screenshot_20260213_220116.png">
+<img src="/Screenshot_20260213_220647.png">
 
 </div>
 
@@ -165,5 +165,6 @@ npm run dev
 ## To Be Continued...
 
 <!-- markdownlint-enable -->
+
 
 
