@@ -121,12 +121,12 @@
     background-image:
       radial-gradient(
         circle at 10% -10%,
-        color-mix(in oklab, var(--accent), white 68%),
+        color-mix(in oklab, var(--accent), var(--background) 68%),
         transparent 44%
       ),
       radial-gradient(
         circle at 100% 0%,
-        color-mix(in oklab, var(--primary), white 78%),
+        color-mix(in oklab, var(--primary), var(--background) 78%),
         transparent 36%
       );
   }
