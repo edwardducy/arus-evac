@@ -1,31 +1,27 @@
-import { Box, Flex, Grid, Theme } from "@radix-ui/themes";
+import { Box, Flex, Theme } from "@radix-ui/themes";
+import { useState } from "react";
 import Map from "./Map";
-import Shelter from "./Shelter";
+import Sidebar, { type SidebarPanel } from "./Sidebar";
 
 function App() {
+  const [activePanel, setActivePanel] = useState<SidebarPanel>("scenario");
+
   return (
-    <Theme>
-      {/* Sidebar.tsx */}
-      <Grid columns={"1fr 3fr"} rows={"1"} className="h-screen w-screen">
-        {/* Aside */}
-        <Grid columns={"1fr 7fr"} rows={"1"}>
-          <Box className="border-r border-r-neutral-200">
-            <Flex justify={"center"} py={"5"}></Flex>
+    <Theme
+      appearance="dark"
+      accentColor="cyan"
+      grayColor="slate"
+      radius="large"
+    >
+      <Flex className="h-screen w-screen bg-[var(--gray-1)] text-[var(--gray-12)]">
+        <Sidebar activePanel={activePanel} onChangePanel={setActivePanel} />
+
+        <Box className="h-full min-w-0 flex-1 p-4">
+          <Box className="relative h-full overflow-hidden rounded-2xl border border-[var(--gray-a6)] bg-[var(--gray-1)] shadow-sm">
+            <Map />
           </Box>
-          <Flex
-            direction={"column"}
-            gap={"5"}
-            p={"3"}
-            className="border-r border-r-neutral-200"
-          >
-            <Shelter />
-          </Flex>
-        </Grid>
-        {/* Main */}
-        <Box>
-          <Map />
         </Box>
-      </Grid>
+      </Flex>
     </Theme>
   );
 }

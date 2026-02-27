@@ -5,9 +5,12 @@ import { useState } from "react";
 function Form({ setPanel }: { setPanel: (p: "list" | "form") => void }) {
   return (
     <>
-      <button onClick={() => setPanel("list")}>
-        <ArrowLeftIcon width={"32"} height={"32"} />
-      </button>
+      <Flex align="center" gap="2">
+        <Button variant="soft" size="1" onClick={() => setPanel("list")}>
+          <ArrowLeftIcon />
+          Back
+        </Button>
+      </Flex>
       <Heading size="8">Add Shelter</Heading>
       <Flex direction="column" gap="3">
         <Flex direction="column" gap="1">

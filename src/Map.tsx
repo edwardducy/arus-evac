@@ -1,27 +1,20 @@
-import { useRef, useEffect } from "react";
-import MapLibre from "maplibre-gl";
+import ReactMapGL, {
+  useControl,
+  type ControlPosition,
+  type MapProps as ReactMapProps,
+} from "react-map-gl/maplibre";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { MaplibreTerradrawControl } from "@watergis/maplibre-gl-terradraw";
 import "@watergis/maplibre-gl-terradraw/dist/maplibre-gl-terradraw.css";
 
-function Map() {
-  const mapContainer = useRef<HTMLDivElement | null>(null);
-  const mapInstance = useRef<MapLibre.Map | null>(null);
+type DrawControlProps = {
+  position?: ControlPosition;
+};
 
-  useEffect(() => {
-    if (!mapContainer.current || mapInstance.current) return;
-
-    const map = new MapLibre.Map({
-      container: mapContainer.current,
-      style: "/positron.json",
-      center: [121, 13],
-      zoom: 5,
-    });
-
-    mapInstance.current = map;
-
-    map.on("load", () => {
-      const draw = new MaplibreTerradrawControl({
+function DrawControl({ position = "top-left" }: DrawControlProps) {
+  useControl(
+    () =>
+      new MaplibreTerradrawControl({
         modes: [
           "render",
           "point",
@@ -42,20 +35,33 @@ function Map() {
         ],
         open: true,
         showDeleteConfirmation: false,
-      });
+      }),
+    { position }
+  );
 
-      map.addControl(draw, "top-left");
-    });
+  return null;
+}
 
-    return () => {
-      if (mapInstance.current) {
-        mapInstance.current.remove();
-        mapInstance.current = null;
-      }
-    };
-  }, []);
+type MapProps = Omit<ReactMapProps, "mapStyle"> & {
+  mapStyle?: ReactMapProps["mapStyle"];
+};
 
-  return <div ref={mapContainer} className="h-full w-full"></div>;
+function Map({
+  mapStyle = "/positron.json",
+  initialViewState = { longitude: 121, latitude: 13, zoom: 5 },
+  style = { width: "100%", height: "100%" },
+  ...props
+}: MapProps) {
+  return (
+    <ReactMapGL
+      mapStyle={mapStyle}
+      initialViewState={initialViewState}
+      style={style}
+      {...props}
+    >
+      <DrawControl position="top-left" />
+    </ReactMapGL>
+  );
 }
 
 export default Map;
